@@ -5,6 +5,7 @@ $input v_color0, v_fog, v_light, v_texcoord0, v_texcoords
 #include <bgfx_shader.sh>
 #include <utils/ActorUtil.h>
 #include <utils/FogUtil.h>
+#include <utils/TonemapUtil.h>
 
 uniform vec4 ColorBased;
 uniform vec4 ChangeColor;
@@ -27,27 +28,6 @@ uniform vec4 BannerUVOffsetsAndScales[7];
 
 SAMPLER2D_AUTOREG(s_MatTexture);
 SAMPLER2D_AUTOREG(s_MatTexture1);
-vec3 film(vec3 x)
-{
-    float a = 1.81;
-    float b = 1.63;
-    float c = 1.43;
-    float d = 1.59;
-    float e = 1.44;
-    return clamp((x*(a*x+b))/(x*(c*x+d)+e), 0., 1.);
-}
-
-vec3 lum_tonemap(vec3 col)
-{
-    if (col.r == 0.0 && col.g == 0.0 && col.b == 0.0)
-        return vec3(0.0,0.0,0.0);
-
-    float gamma = 1.13;
-    col = pow(col, float3(1.0 / gamma, 1.0 / gamma, 1.0 / gamma));
-
-
-    return film(col);
-}
 
 void main() {
 #if DEPTH_ONLY_PASS
@@ -91,7 +71,7 @@ void main() {
     albedo = applyActorDiffuse(albedo, v_color0.rgb, v_light, ColorBased.x, OverlayColor);
     albedo = applyHudOpacity(albedo, HudOpacity.x);
     albedo.rgb = applyFog(albedo.rgb, v_fog.rgb, v_fog.a);
-    albedo.rgb = lum_tonemap(albedo.rgb);
+    albedo.rgb = lum_tonemap_other(albedo.rgb);
     gl_FragColor = albedo;
 #endif // !ALPHA_TEST
 

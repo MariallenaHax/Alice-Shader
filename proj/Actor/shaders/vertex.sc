@@ -53,7 +53,7 @@ void main() {
     worldPosition = mul(World, vec4(a_position, 1.0)).xyz;
 #endif
     
-    vec4 position;// = mul(u_viewProj, vec4(worldPosition, 1.0));
+    vec4 position;
 
     //StandardTemplate_InvokeVertexOverrideFunction
     position = jitterVertexPosition(worldPosition);
@@ -71,5 +71,8 @@ void main() {
 
     v_fog = fog; 
     v_light = light;
+    #if BGFX_SHADER_LANGUAGE_SPIRV
+    position.y = -position.y;
+    #endif
     gl_Position = position;
 }

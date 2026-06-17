@@ -1,5 +1,5 @@
 $input a_color0, a_position, a_texcoord0
-    #ifdef INSTANCING
+    #ifdef INSTANCING__ON
         $input i_data0, i_data1, i_data2
     #endif
 
@@ -13,7 +13,7 @@ uniform vec4 FogColor;
 void main()
 {
     mat4 model;
-#ifdef INSTANCING
+#ifdef INSTANCING__ON
     model = mtxFromCols(i_data0, i_data1, i_data2, vec4(0,0,0,1));
 #else
     model = u_model[0];
@@ -29,5 +29,9 @@ void main()
     v_prevWorldPos = worldPos;
     v_normal = vec3(0.0, 1.0, 0.0);
 
-    gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
+    vec4 pos = mul(u_viewProj, vec4(worldPos, 1.0));
+    #if BGFX_SHADER_LANGUAGE_SPIRV
+    pos.y = -pos.y;
+    #endif
+    gl_Position = pos;
 }

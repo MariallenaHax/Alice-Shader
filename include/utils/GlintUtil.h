@@ -3,12 +3,6 @@
 
 vec2 calculateLayerUV(const vec2 origUV, const float offset, const float rotation, const vec2 scale) { // #line 1
     vec2 uv = origUV;
-    uv -= 0.5;
-
-    float rsin = sin(rotation);
-    float rcos = cos(rotation);
-
-    uv = mul(uv, mat2(rcos, -rsin, rsin, rcos));
     uv.x += offset;
     uv += 0.5;
 

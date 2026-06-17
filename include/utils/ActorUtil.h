@@ -33,7 +33,7 @@ bool shouldDiscard(vec3 diffuse, float alpha, float epsilon) {
 }
 
 vec4 applyActorDiffuse(vec4 albedo, vec3 color, vec4 light, float colorBased, vec4 overlayColor) {
-    albedo.rgb *= mix(vec3(1, 1, 1), color, colorBased);
+    albedo.rgb *= mix(vec3(0.7, 0.7, 0.7), color, colorBased);
 
     albedo = applyOverlayColor(albedo, overlayColor);
     albedo = applyEmissiveLighting(albedo, light);

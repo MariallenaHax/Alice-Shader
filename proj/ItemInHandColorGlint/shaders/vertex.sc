@@ -52,5 +52,8 @@ void main() {
     v_light = light;
     v_fog = fog;
     v_texcoord0 = a_texcoord0;
+    #if BGFX_SHADER_LANGUAGE_SPIRV
+    position.y = -position.y;
+    #endif
     gl_Position = position;
 }

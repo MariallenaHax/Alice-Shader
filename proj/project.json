@@ -6,6 +6,10 @@
     "include_search_paths": ["../include"]
   },
   "profiles": {
+    "nx": {
+      "macros": [],
+      "platforms": ["Vulkan"]
+    },
     "android": {
       "macros": [],
       "platforms": ["ESSL_310"]
