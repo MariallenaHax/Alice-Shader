@@ -16,6 +16,7 @@ uniform vec4 FogColor;
 uniform vec4 TileLightColor;
 
 void main() {
+    uvec2 uv0 = uvec2(round(a_texcoord0 * 65535.0));
     mat4 World = u_model[0];
 
     float lightIntensity = calculateLightIntensity(World, vec4(a_normal.xyz, 0.0), TileLightColor);
@@ -43,7 +44,10 @@ void main() {
 
     v_light = light;
     v_fog = fog;
-    v_texcoord0 = a_texcoord0;
+    vec2 texcoord = vec2(float((uv0.x & 32767u) << uint(1)), float((uv0.y & 32767u) << uint(1))) * vec2_splat(1.525902189314365386962890625e-05);
+    texcoord.x += (3.0517578125e-05 * ((2.0 * float((uv0.x & 32768u) >> uint(15))) - 1.0));
+    texcoord.y += (3.0517578125e-05 * ((2.0 * float((uv0.y & 32768u) >> uint(15))) - 1.0));
+    v_texcoord0 = texcoord;
     #if BGFX_SHADER_LANGUAGE_SPIRV
     position.y = -position.y;
     #endif
