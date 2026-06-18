@@ -13,8 +13,7 @@ uniform vec4 FogColor;
 
 void main() {
     uvec2 uv0 = uvec2(round(a_texcoord0 * 65535.0));
-    uvec2 _6d79f = uvec2(round(a_texcoord1 * 65535.0));
-    uvec2 _5e4ed = _6d79f;
+    uvec2 uv1 = uvec2(round(a_texcoord1 * 65535.0));
     mat4 model;
 #ifdef INSTANCING__ON
     model[0] = vec4(i_data1.x, i_data2.x, i_data3.x, 0.0);
@@ -62,7 +61,7 @@ void main() {
     texcoord.x += (3.0517578125e-05 * ((2.0 * float((uv0.x & 32768u) >> uint(15))) - 1.0));
     texcoord.y += (3.0517578125e-05 * ((2.0 * float((uv0.y & 32768u) >> uint(15))) - 1.0));
     v_texcoord0 = texcoord;
-    v_lightmapUV = vec2(uvec2(_5e4ed.y >> 4u, _5e4ed.y) & uvec2(15u,15u)) * vec2_splat(0.066666670143604278564453125);
+    v_lightmapUV = vec2(uvec2(uv1.y >> 4u, uv1.y) & uvec2(15u,15u)) * vec2_splat(0.066666670143604278564453125);
     v_color0     = vec4(correctedColor, color.a);
     v_fog        = fogColor;
     vec4 pos = mul(u_viewProj, vec4(worldPos, 1.0));
