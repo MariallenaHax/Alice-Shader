@@ -12,7 +12,7 @@ uniform vec4 ViewPositionAndTime;
 uniform vec4 FogColor;
 
 void main() {
-    uvec2 _1307 = uvec2(round(a_texcoord0 * 65535.0));
+    uvec2 uv0 = uvec2(round(a_texcoord0 * 65535.0));
     uvec2 _6d79f = uvec2(round(a_texcoord1 * 65535.0));
     uvec2 _5e4ed = _6d79f;
     mat4 model;
