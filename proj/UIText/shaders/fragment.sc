@@ -75,6 +75,6 @@ void main() {
 #endif
 
     diffuse.a = diffuse.a * HudOpacity.x;
-    diffuse.rgb=lum_tonemap(diffuse.rgb);
+    diffuse.rgb=lum_tonemap(diffuse.rgb,true);
     gl_FragColor = diffuse;
 }

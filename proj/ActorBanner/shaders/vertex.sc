@@ -95,8 +95,6 @@ void main() {
 
     v_fog = fog;
     v_light = light;
-    #if BGFX_SHADER_LANGUAGE_SPIRV
-    position.y = -position.y;
-    #endif
+    position.y = ndc(position.y);
     gl_Position = position;
 }

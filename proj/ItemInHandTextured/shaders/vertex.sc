@@ -48,8 +48,6 @@ void main() {
     texcoord.x += (3.0517578125e-05 * ((2.0 * float((uv0.x & 32768u) >> uint(15))) - 1.0));
     texcoord.y += (3.0517578125e-05 * ((2.0 * float((uv0.y & 32768u) >> uint(15))) - 1.0));
     v_texcoord0 = texcoord;
-    #if BGFX_SHADER_LANGUAGE_SPIRV
-    position.y = -position.y;
-    #endif
+    position.y = ndc(position.y);
     gl_Position = position;
 }

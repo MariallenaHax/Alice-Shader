@@ -9,6 +9,6 @@ void main() {
     vec4 tex = texture2D(s_MatTexture, v_texcoord0);
     vec4 diffuse = tex * TintColor;
     diffuse.a = diffuse.a * HudOpacity.x;
-    diffuse.rgb=lum_tonemap(diffuse.rgb);
+    diffuse.rgb=lum_tonemap(diffuse.rgb,true);
     gl_FragColor = diffuse;
 }

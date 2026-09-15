@@ -1,48 +1,26 @@
-vec3 film(vec3 x)
+vec3 film(vec3 x, bool isOther)
 {
-    float a = 0.95;
-    float b = 1.20;
-    float c = 0.35;
-    float d = 1.10;
-    float e = 1.05;
-
-    return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
+    float a = 2.315;
+    float b = 0.625;
+    float c = 1.525;
+    float d = 0.725;
+    float e = 0.925;
+    if(isOther)
+    {
+        a = 2.0;
+        b = 0.6;
+        c = 1.4;
+        d = 0.8;
+        e = 0.6;
+    }
+    return saturate((x*(a*x+b))/(x*(c*x+d)+e));
 }
 
-vec3 lum_tonemap(vec3 col)
+vec3 lum_tonemap(vec3 color, bool isOther)
 {
-    if (col.r == 0.0 && col.g == 0.0 && col.b == 0.0)
-        return vec3_splat(0.0);
-
-    col = film(col);
-
-    col = col + vec3_splat(0.05);
-
-    float gamma = 0.90;
-    float g = 1.0 / gamma;
-    col = pow(col, vec3_splat(g));
-
-    return clamp(col, 0.0, 1.0);
-}
-
-vec3 film_other(vec3 x)
-{
-    float a = 2.61;
-    float b = 0.93;
-    float c = 2.23;
-    float d = 1.09;
-    float e = 0.94;
-    return clamp((x*(a*x+b))/(x*(c*x+d)+e), 0., 1.);
-}
-
-vec3 lum_tonemap_other(vec3 col)
-{
-    if (col.r == 0.0 && col.g == 0.0 && col.b == 0.0)
-        return vec3(0.0,0.0,0.0);
-
-    float gamma = 1.53;
-    col = pow(col, float3(1.0 / gamma, 1.0 / gamma, 1.0 / gamma));
-
-
-    return film(col);
+    if (color.r+color.g+color.b == 0.0) return vec3_splat(0.0);
+    if(isOther)
+        return film(pow(color, vec3_splat(1.0)),isOther);
+    else
+        return film(pow(color, vec3_splat(1.0 / 1.85)),isOther);
 }

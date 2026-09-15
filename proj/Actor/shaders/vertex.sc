@@ -3,7 +3,7 @@ $input a_position, a_color0, a_texcoord0, a_indices, a_normal
     $input i_data0, i_data1, i_data2
 #endif
 
-$output v_color0, v_fog, v_light, v_texcoord0
+$output v_color0, v_fog, v_light, v_texcoord0,v_worldPos,v_clipPosition
 
 #include <bgfx_shader.sh>
 #include <utils/FogUtil.h>
@@ -71,8 +71,8 @@ void main() {
 
     v_fog = fog; 
     v_light = light;
-    #if BGFX_SHADER_LANGUAGE_SPIRV
-    position.y = -position.y;
-    #endif
+    v_clipPosition = position;
+    position.y = ndc(position.y);
     gl_Position = position;
+    v_worldPos = worldPosition;
 }

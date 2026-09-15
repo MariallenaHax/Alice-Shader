@@ -36,7 +36,7 @@ void main() {
 #endif
 
     albedo.rgb = applyFog(albedo.rgb, v_fog.rgb, v_fog.a);
-    albedo.rgb = lum_tonemap(albedo.rgb);
+    albedo.rgb = lum_tonemap(albedo.rgb,false);
     gl_FragColor = albedo;
 #endif // DEPTH_ONLY
 }

@@ -48,8 +48,6 @@ void main() {
     v_linearClampBounds = linearClampBounds;
     v_color0 = a_color0;
     vec4 pos = mul(u_modelViewProj, vec4(a_position.xy, 0.0, 1.0));
-    #if BGFX_SHADER_LANGUAGE_SPIRV
-    pos.y = -pos.y;
-    #endif
+    pos.y = ndc(pos.y);
     gl_Position = pos;
 }

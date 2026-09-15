@@ -71,7 +71,7 @@ void main() {
     albedo = applyActorDiffuse(albedo, v_color0.rgb, v_light, ColorBased.x, OverlayColor);
     albedo = applyHudOpacity(albedo, HudOpacity.x);
     albedo.rgb = applyFog(albedo.rgb, v_fog.rgb, v_fog.a);
-    albedo.rgb = lum_tonemap_other(albedo.rgb);
+    albedo.rgb = lum_tonemap(albedo.rgb,false);
     gl_FragColor = albedo;
 #endif // !ALPHA_TEST
 

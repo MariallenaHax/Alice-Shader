@@ -4,30 +4,23 @@ $input i_data1,i_data2,i_data3
 #endif
 $output v_texcoord0
 
+#include <bgfx_shader.sh>
+
 uniform mat4 UV0Transform;
-#ifdef INSTANCING__OFF
-uniform mat4 u_model[4];
-#endif
-uniform mat4 u_viewProj;
 void main() {
 #ifdef INSTANCING__OFF
-    vec4 _9b079 = mul(u_model[0],vec4(a_position, 1.0));
+    vec4 World = mul(u_model[0],vec4(a_position, 1.0));
 #endif
 #ifdef INSTANCING__ON
-    vec4 _78b44 = i_data1;
-    vec4 _e67a8 = i_data2;
-    vec4 _1b7f0 = i_data3;
-    mat4 _e43a8;
-    _e43a8[0] = vec4(_78b44.x, _e67a8.x, _1b7f0.x, 0.0);
-    _e43a8[1] = vec4(_78b44.y, _e67a8.y, _1b7f0.y, 0.0);
-    _e43a8[2] = vec4(_78b44.z, _e67a8.z, _1b7f0.z, 0.0);
-    _e43a8[3] = vec4(_78b44.w, _e67a8.w, _1b7f0.w, 1.0);
-    vec4 _9b079 = mul(_e43a8,vec4(a_position, 1.0));
+    mat4 model;
+    model[0] = vec4( i_data1.x, i_data2.x, i_data3.x, 0.0);
+    model[1] = vec4( i_data1.y, i_data2.y, i_data3.y, 0.0);
+    model[2] = vec4( i_data1.z, i_data2.z, i_data3.z, 0.0);
+    model[3] = vec4( i_data1.w, i_data2.w, i_data3.w, 1.0);
+    vec4 World = mul(model,vec4(a_position, 1.0));
 #endif
     v_texcoord0 = mul(UV0Transform,vec4(a_texcoord0, 0.0, 1.0)).xy;
-    vec4 pos = mul(u_viewProj,vec4(_9b079.xyz, 1.0));
-    #if BGFX_SHADER_LANGUAGE_SPIRV
-    pos.y = -pos.y;
-    #endif
+    vec4 pos = mul(u_viewProj,vec4(World.xyz, 1.0));
+    pos.y = ndc(pos.y);
     gl_Position = pos;
 }

@@ -6,6 +6,6 @@ $input v_texcoord0
 SAMPLER2D_AUTOREG(s_SkyTexture);
 void main() {
     vec4 diffuse = vec4(0.4,0.28,0.4,1.0) * texture2D(s_SkyTexture, v_texcoord0);
-    diffuse.rgb=lum_tonemap_other(diffuse.rgb);
+    diffuse.rgb=lum_tonemap(diffuse.rgb,false);
     gl_FragColor = diffuse;
 }
