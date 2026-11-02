@@ -33,7 +33,7 @@ void main() {
     int corner = int(a_position.z);
     bool isRight = corner == 1 || corner == 2;
     bool isBottom = corner == 0 || corner == 1;
-    texCoord.x += isRight ? GLYPH_SIZE : 0.0;
+    texCoord.x += isRight ? 0.0625 : 0.0;
     texCoord.y += isBottom ? GLYPH_SIZE : 0.0;
 #endif
 
