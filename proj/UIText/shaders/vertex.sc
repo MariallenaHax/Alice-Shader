@@ -13,6 +13,7 @@ uniform vec4 ShadowColor;
 uniform vec4 OutlineColor;
 uniform vec4 ShadowOffset;
 uniform vec4 HalfTexelOffset;
+uniform vec4 GlyphHeight;
 
 #ifndef FONT_TYPE__TRUE_TYPE
 bool NeedsLinearClamp() {
@@ -25,7 +26,7 @@ bool NeedsLinearClamp() {
 #endif
 
 void main() {
-    const float GLYPH_SIZE = 1.0 / 16.0;
+    const float GLYPH_SIZE = GlyphHeight.x;
     
     vec2 texCoord = a_texcoord0;
 #ifndef FONT_TYPE__TRUE_TYPE
